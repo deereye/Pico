@@ -9,7 +9,7 @@
 [ext_resource path="res://Main/Player/Animations/Attack/AttackAnim6.png" type="Texture" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 77.7644, 71.4211 )
+extents = Vector2( 95.6592, 71.4211 )
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -29,6 +29,7 @@ script = ExtResource( 2 )
 position = Vector2( 103.551, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+visible = false
 position = Vector2( -16.8421, 0 )
 shape = SubResource( 1 )
 

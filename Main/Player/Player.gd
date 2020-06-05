@@ -4,7 +4,7 @@ extends KinematicBody2D
 const gravity = 45
 const base_speed = 700
 var speed = base_speed
-const jump_force = 700
+const jump_force = 730
 const jump_time = 0.235
 const max_fall_speed = 1200 
 const flying_factor = 2.9  #DIVISE 

@@ -8,7 +8,7 @@
 [node name="TestWorld" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( -2533.17, -1019.96 )
+position = Vector2( -364.408, -254.257 )
 
 [node name="BackTilemap" parent="." instance=ExtResource( 1 )]
 z_index = -10
@@ -20,7 +20,21 @@ tile_data = PoolIntArray( -1638351, 3, 0, -1638350, 3, 1, -1638349, 3, 2, -15728
 tile_data = PoolIntArray( -327676, 1, 0, -327675, 1, 0, -327674, 1, 0, -327673, 1, 0, -327672, 1, 0, -327671, 1, 0 )
 
 [node name="PunchingBag" parent="." instance=ExtResource( 4 )]
-position = Vector2( -2043.62, -1177.8 )
-collision_layer = 32
-collision_mask = 2
+position = Vector2( -1831.17, -1040.6 )
+gravity_scale = 5.0
+
+[node name="PunchingBag2" parent="." instance=ExtResource( 4 )]
+position = Vector2( -2105.59, -1058.3 )
+gravity_scale = 5.0
+
+[node name="PunchingBag3" parent="." instance=ExtResource( 4 )]
+position = Vector2( 2316.03, 552.779 )
+gravity_scale = 5.0
+
+[node name="PunchingBag4" parent="." instance=ExtResource( 4 )]
+position = Vector2( 2258.49, -1633.68 )
+gravity_scale = 5.0
+
+[node name="PunchingBag5" parent="." instance=ExtResource( 4 )]
+position = Vector2( 1019.2, -947.649 )
 gravity_scale = 5.0
