@@ -9,9 +9,9 @@
 [ext_resource path="res://Main/Player/Animations/Attack/AttackAnim6.png" type="Texture" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 27.0068, 31.077 )
+extents = Vector2( 77.7644, 71.4211 )
 
-[sub_resource type="SpriteFrames" id=3]
+[sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [ ExtResource( 1 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ],
 "loop": false,
@@ -26,13 +26,14 @@ script = ExtResource( 2 )
 [node name="Area2D" type="Area2D" parent="." groups=[
 "sword",
 ]]
-position = Vector2( 30.2447, 0 )
+position = Vector2( 103.551, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( -16.8421, 0 )
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 29.5454, 0 )
-scale = Vector2( 0.890734, 1 )
-frames = SubResource( 3 )
+position = Vector2( 98.6535, -13.2684 )
+scale = Vector2( 4.00658, 7 )
+frames = SubResource( 2 )
 animation = "attack1"

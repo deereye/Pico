@@ -116,7 +116,7 @@ points = PoolVector2Array( 0, 0, 192, 0, 192, 64, 0, 64 )
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 3/z_index = 0
-4/name = "Tilset.png 4"
+4/name = ""
 4/texture = ExtResource( 4 )
 4/tex_offset = Vector2( 0, 0 )
 4/modulate = Color( 1, 1, 1, 1 )
@@ -166,4 +166,6 @@ points = PoolVector2Array( 0, 0, 192, 0, 192, 64, 0, 64 )
 "ground",
 ]]
 tile_set = SubResource( 12 )
+collision_layer = 2
+collision_mask = 33
 format = 1

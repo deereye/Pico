@@ -33,6 +33,8 @@ func _ready():
 func _input(event):
 	if Input.is_action_just_pressed("ui_cancel"):
 		get_tree().quit()
+	if Input.is_action_just_pressed("restart"):
+		get_tree().reload_current_scene()
 
 func _physics_process(delta):
 	global.player_pos = position
@@ -41,10 +43,14 @@ func _physics_process(delta):
 	if can_move_h:
 		if Input.is_action_pressed("move_left"):
 			direction = -1
-			$Sprite.flip_h = true
+			if !global.attacking:
+				$Sprite.flip_h = true
+				$Sword.scale.x = -1
 		if Input.is_action_pressed("move_right"):
 			direction = 1
-			$Sprite.flip_h = false
+			if !global.attacking:
+				$Sprite.flip_h = false
+				$Sword.scale.x = 1
 		
 		if !Input.is_action_pressed("move_left") and !Input.is_action_pressed("move_right") :
 			direction = 0
@@ -76,6 +82,7 @@ func _physics_process(delta):
 	
 	# <-------------------------------------------------------------------- VOLE
 	if flying :
+		global.flying = true
 		speed = 860
 		if direction==1:
 			$Sprite.rotation_degrees = 90
@@ -90,6 +97,7 @@ func _physics_process(delta):
 		else:
 			y_velo /= flying_factor
 	else:
+		global.flying = false
 		$Sprite.rotation_degrees = 0
 		speed = base_speed
 		
@@ -120,20 +128,31 @@ func max_jump():
 
 
 func _on_GroundDetection_body_entered(body):
-	if body.is_in_group("ground"):
+	if body.is_in_group("ground")and !body.is_in_group("half_ground"):
 		grounded = true
 
-
+	
+	
+	
 func _on_GroundDetection_body_exited(body):
 	if body.is_in_group("ground"):
 		grounded = false
-
-
+	if body.is_in_group("half_ground"):
+		#$CollisionShape2D.position = Vector2 (0,0)
+		pass
+		
 func _on_CellingDetection_body_entered(body):
-	if body.is_in_group("ground"):
+	if body.is_in_group("ground") and !body.is_in_group("half_ground"):
 		cellinged = true
+	elif body.is_in_group("ground") and body.is_in_group("half_ground"):
+		#$CollisionShape2D.position = Vector2 (0,10000)
+		pass
+		
+		
 
 
 func _on_CellingDetection_body_exited(body):
 	if body.is_in_group("ground"):
 		cellinged = false
+	if body.is_in_group("half_ground"):
+		y_velo -= 250
