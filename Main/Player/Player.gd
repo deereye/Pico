@@ -4,15 +4,20 @@ extends KinematicBody2D
 const gravity = 45
 const base_speed = 700
 var speed = base_speed
-const jump_force = 730
-const jump_time = 0.235
-const max_fall_speed = 1200 
+const jump_force = 700
+const jump_time = 0.4
+const max_fall_speed = 2000 
 const flying_factor = 2.9  #DIVISE 
 const attack_stop_time = 0.6
+const jump_speed = -700
+const flight_angle = 0.05
 
+const weak_gravity = Vector2(0, 5)
+const strong_gravity = Vector2(0, 40)
 
 #DATA (var that are use by the scripts but doesnt impact it)
 var direction = 1
+var last_direction = 1
 var y_velo = 0
 var current_jump_force = 0
 
@@ -23,6 +28,8 @@ var cellinged = false
 var can_jump = false
 var jumping = false
 var flying = false
+
+var speed_vector = Vector2(0, 0)
 
 
 
@@ -43,11 +50,13 @@ func _physics_process(delta):
 	if can_move_h:
 		if Input.is_action_pressed("move_left"):
 			direction = -1
+			last_direction = -1
 			if !global.attacking:
 				$Sprite.flip_h = true
 				$Sword.scale.x = -1
 		if Input.is_action_pressed("move_right"):
 			direction = 1
+			last_direction = 1
 			if !global.attacking:
 				$Sprite.flip_h = false
 				$Sword.scale.x = 1
@@ -58,69 +67,46 @@ func _physics_process(delta):
 	# <------------------------------------------------------ VERTICAL MOVEMENT
 	if Input.is_action_just_pressed("jump") and can_jump:
 		jumping = true
+		flying = false
 		can_jump = false
+		speed_vector = Vector2(0, jump_speed)
 		max_jump()
+	
+	if Input.is_action_just_pressed("jump") and !jumping:
+		flying = true
+	
 	if Input.is_action_just_released("jump"):
 		jumping = false
+		flying = false		
 	
-	if !grounded:
-		if Input.is_action_just_pressed("jump"):
-			flying = true
-			jumping = false
-			
-		if Input.is_action_just_released("jump") and flying:
-			flying = false
-			y_velo= 5
-			
-	
-	# <------------------------------------------------------------------- SAUT
-	if jumping:
-		y_velo = -current_jump_force 
-		current_jump_force += 13.5
-	else:
-		current_jump_force = jump_force
-	
-	# <-------------------------------------------------------------------- VOLE
 	if flying :
-		global.flying = true
-		speed = 860
-		if direction==1:
-			$Sprite.rotation_degrees = 90
+		if direction == 1 :
+			speed_vector = speed_vector.rotated(-flight_angle)
 		else :
-			$Sprite.rotation_degrees = -90
-		if direction == 0 :
-			y_velo /= flying_factor
-			y_velo *= 3
-		elif is_on_wall():
-			y_velo /= flying_factor
-			y_velo *= 3
-		else:
-			y_velo /= flying_factor
+			speed_vector = speed_vector.rotated(flight_angle)
+	
+	if(jumping):
+		speed_vector += weak_gravity
 	else:
-		global.flying = false
-		$Sprite.rotation_degrees = 0
-		speed = base_speed
-		
+		speed_vector += strong_gravity
+	
+	speed_vector.y = min(speed_vector.y, max_fall_speed)
 	#
-	if grounded:
+	if grounded and !jumping:
 		can_jump = true
 		flying = false
-		if !jumping:
-			y_velo = 5
+		speed_vector = Vector2(0, 0)
+		move_and_slide(Vector2(direction * speed , y_velo))
 	else:
-		y_velo += gravity
-		if y_velo >= max_fall_speed:
-			y_velo = max_fall_speed
+		var final_vector = speed_vector + Vector2(direction * speed, 0)
+		var collision = move_and_collide(final_vector * delta)
+		if collision:
+			speed_vector = Vector2(0, 0)
 	
 	
-			
-
+#	if cellinged:
+#		y_velo += 150
 	
-	if cellinged:
-		y_velo += 150
-	
-	move_and_slide(Vector2(direction * speed , y_velo), Vector2(0,1))
-
 
 func max_jump():
 	yield(get_tree().create_timer(jump_time),"timeout")
