@@ -8,7 +8,7 @@ const jump_force = 700
 const jump_time = 0.235
 const max_fall_speed = 1200 
 const flying_factor = 2.9  #DIVISE 
-const attack_stop_time = 0.5
+const attack_stop_time = 0.6
 
 
 #DATA (var that are use by the scripts but doesnt impact it)
