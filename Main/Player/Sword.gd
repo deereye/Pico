@@ -4,7 +4,7 @@ onready var sprites = $AnimatedSprite
 var in_combo = false
 var combo = 0
 var can_attack = true
-var time_btw_attack = 0.5
+var time_btw_attack = 0.25
 
 func _ready():
 	$AnimatedSprite.visible = false

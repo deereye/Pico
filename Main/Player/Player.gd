@@ -1,16 +1,13 @@
 extends KinematicBody2D
 
 #CONSTANTES et VARIABLES CLEFS
-const gravity = 50
 const base_speed = 700
 var speed = base_speed
-const jump_force = 700
 const jump_time = 0.4 
-const flying_factor = 2.9  #DIVISE 
 const attack_stop_time = 0.6
-const jump_speed = -700
-const flight_angle = 0.08
-const friction = 0.99
+const jump_speed = -930 #vitesse initial du saut
+const flight_angle = 0.08 #08
+const friction = 0.982 #0.99 (<1) 1 = vitesse élevé, 0 = vitesse nulle
 
 const weak_gravity = Vector2(0, 5)
 const strong_gravity = Vector2(0, 40)
@@ -19,7 +16,6 @@ const strong_gravity = Vector2(0, 40)
 var direction = 1
 var last_direction = 1
 var y_velo = 0
-var current_jump_force = 0
 
 #BOOL
 var can_move_h = true
@@ -52,13 +48,13 @@ func _physics_process(delta):
 			direction = -1
 			last_direction = -1
 			if !global.attacking:
-				$Sprite.flip_h = true
+				$SpriteRig/Sprite.flip_h = true
 				$Sword.scale.x = -1
 		if Input.is_action_pressed("move_right"):
 			direction = 1
 			last_direction = 1
 			if !global.attacking:
-				$Sprite.flip_h = false
+				$SpriteRig/Sprite.flip_h = false
 				$Sword.scale.x = 1
 		
 		if !Input.is_action_pressed("move_left") and !Input.is_action_pressed("move_right") :
@@ -77,15 +73,26 @@ func _physics_process(delta):
 	
 	if Input.is_action_just_released("jump"):
 		jumping = false
-		flying = false		
+		flying = false
 	
 	if flying :
+		if last_direction==1:
+			$SpriteRig.rotation_degrees = 90
+		else:
+			$SpriteRig.rotation_degrees = -90
+		$CollisionShape2D.rotation_degrees =90
+		$CollisionShape2D.position.y = 0
 		if last_direction == 1 :
 			if speed_vector.angle() < PI or speed_vector.angle() > 1.5*PI :
 				speed_vector = speed_vector.rotated(-flight_angle)
 		else :
 			if speed_vector.angle() < 1.5*PI :
 				speed_vector = speed_vector.rotated(flight_angle)
+	else:
+		$SpriteRig.rotation_degrees = 0
+		$CollisionShape2D.rotation_degrees = 0
+		$CollisionShape2D.position.y = 27
+		
 	
 	if(jumping):
 		speed_vector += weak_gravity
@@ -100,6 +107,7 @@ func _physics_process(delta):
 		speed_vector = Vector2(0, 0)
 		move_and_slide(Vector2(direction * speed , y_velo))
 	else:
+		can_jump = false
 		var final_vector = speed_vector + Vector2(direction * speed, 0)
 		var collision = move_and_collide(final_vector * delta)
 		if collision:
