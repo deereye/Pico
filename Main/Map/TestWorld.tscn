@@ -8,7 +8,7 @@
 [node name="TestWorld" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 683.425, -4111.25 )
+position = Vector2( 2213.54, -6244.58 )
 
 [node name="BackTilemap" parent="." instance=ExtResource( 1 )]
 z_index = -10

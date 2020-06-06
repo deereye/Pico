@@ -1,16 +1,16 @@
 extends KinematicBody2D
 
 #CONSTANTES et VARIABLES CLEFS
-const gravity = 45
+const gravity = 50
 const base_speed = 700
 var speed = base_speed
 const jump_force = 700
-const jump_time = 0.4
-const max_fall_speed = 2000 
+const jump_time = 0.4 
 const flying_factor = 2.9  #DIVISE 
 const attack_stop_time = 0.6
 const jump_speed = -700
-const flight_angle = 0.05
+const flight_angle = 0.08
+const friction = 0.99
 
 const weak_gravity = Vector2(0, 5)
 const strong_gravity = Vector2(0, 40)
@@ -80,17 +80,19 @@ func _physics_process(delta):
 		flying = false		
 	
 	if flying :
-		if direction == 1 :
-			speed_vector = speed_vector.rotated(-flight_angle)
+		if last_direction == 1 :
+			if speed_vector.angle() < PI or speed_vector.angle() > 1.5*PI :
+				speed_vector = speed_vector.rotated(-flight_angle)
 		else :
-			speed_vector = speed_vector.rotated(flight_angle)
+			if speed_vector.angle() < 1.5*PI :
+				speed_vector = speed_vector.rotated(flight_angle)
 	
 	if(jumping):
 		speed_vector += weak_gravity
 	else:
 		speed_vector += strong_gravity
 	
-	speed_vector.y = min(speed_vector.y, max_fall_speed)
+	speed_vector = speed_vector * friction
 	#
 	if grounded and !jumping:
 		can_jump = true
