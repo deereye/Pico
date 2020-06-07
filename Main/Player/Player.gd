@@ -12,6 +12,9 @@ const friction = 0.982 #0.99 (<1) 1 = vitesse élevé, 0 = vitesse nulle
 const weak_gravity = Vector2(0, 5)
 const strong_gravity = Vector2(0, 40)
 
+#A AMILORATIER: COLLISION!, saut(plus faible au départ, fort à la fin), near ground/near celling à callibrer
+
+
 #DATA (var that are use by the scripts but doesnt impact it)
 var direction = 1
 var last_direction = 1
@@ -24,6 +27,8 @@ var cellinged = false
 var can_jump = false
 var jumping = false
 var flying = false
+var near_celling = false
+var near_ground = false
 
 var speed_vector = Vector2(0, 0)
 
@@ -82,12 +87,24 @@ func _physics_process(delta):
 			$SpriteRig.rotation_degrees = -90
 		$CollisionShape2D.rotation_degrees =90
 		$CollisionShape2D.position.y = 0
+		
 		if last_direction == 1 :
 			if speed_vector.angle() < PI or speed_vector.angle() > 1.5*PI :
 				speed_vector = speed_vector.rotated(-flight_angle)
 		else :
 			if speed_vector.angle() < 1.5*PI :
 				speed_vector = speed_vector.rotated(flight_angle)
+		
+		if near_ground:
+			if last_direction == 1 :
+				speed_vector = speed_vector.rotated(-flight_angle)
+			else :
+				speed_vector = speed_vector.rotated(flight_angle)
+		if near_celling:
+			if last_direction == 1 :
+				speed_vector = speed_vector.rotated(flight_angle)
+			else :
+				speed_vector = speed_vector.rotated(-flight_angle)
 	else:
 		$SpriteRig.rotation_degrees = 0
 		$CollisionShape2D.rotation_degrees = 0
@@ -123,6 +140,14 @@ func max_jump():
 	jumping = false
 
 
+func zoom(x):
+	if x:
+		$CameraRig/Camera2D.zoom = Vector2(1.5,1.5)
+	else:
+		$CameraRig/Camera2D.zoom = Vector2(2,2)
+
+
+
 func _on_GroundDetection_body_entered(body):
 	if body.is_in_group("ground")and !body.is_in_group("half_ground"):
 		grounded = true
@@ -152,3 +177,41 @@ func _on_CellingDetection_body_exited(body):
 		cellinged = false
 	if body.is_in_group("half_ground"):
 		y_velo -= 250
+
+
+func _on_Top_body_entered(body):
+	if body.is_in_group("ground"):
+		near_celling = true
+func _on_Top_body_exited(body):
+	if body.is_in_group("ground"):
+		near_celling = false
+
+
+func _on_Bottom_body_entered(body):
+	if body.is_in_group("ground"):
+		near_ground = true
+func _on_Bottom_body_exited(body):
+	if body.is_in_group("ground"):
+		near_ground = false
+
+func _on_Hitbox_area_entered(area):
+	if area.is_in_group("pnj"):
+		zoom(true)
+func _on_Hitbox_area_exited(area):
+	if area.is_in_group("pnj"):
+		zoom(false)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

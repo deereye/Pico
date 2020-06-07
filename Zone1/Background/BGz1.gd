@@ -21,8 +21,8 @@ func _process(delta):
 
 	
 	
-	$cloud1.position.x += speed * dir1
-	$cloud2.position.x += speed2 * dir2
+	$cloud1.position.x += speed2 * dir1
+	$cloud2.position.x += speed * dir2
 
 
 func follow():

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Main/Player/PlayerNoOutline.png" type="Texture" id=1]
 [ext_resource path="res://Main/Player/Player.gd" type="Script" id=2]
@@ -12,6 +12,16 @@ height = 51.1036
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 11.1283, 1.6022 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 196.186, 54.5143 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 197.161, 57.928 )
+
+[sub_resource type="CapsuleShape2D" id=5]
+radius = 13.0716
+height = 61.1909
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 2 )
@@ -62,8 +72,38 @@ position = Vector2( -0.94693, -3.49757 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionDetection/CellingDetection"]
 shape = SubResource( 2 )
 
+[node name="NearDetection" type="Node2D" parent="."]
+visible = false
+
+[node name="Top" type="Area2D" parent="NearDetection"]
+position = Vector2( 0, -57.5456 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NearDetection/Top"]
+position = Vector2( -0.487671, 0 )
+shape = SubResource( 3 )
+
+[node name="Bottom" type="Area2D" parent="NearDetection"]
+position = Vector2( 0, 59.9841 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NearDetection/Bottom"]
+shape = SubResource( 4 )
+
+[node name="Hitbox" type="Area2D" parent="." groups=[
+"player",
+]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource( 5 )
+
 [node name="Sword" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0, -0.487679 )
 [connection signal="body_entered" from="CollisionDetection/GroundDetection" to="." method="_on_GroundDetection_body_entered"]
 [connection signal="body_exited" from="CollisionDetection/GroundDetection" to="." method="_on_GroundDetection_body_exited"]
 [connection signal="body_entered" from="CollisionDetection/CellingDetection" to="." method="_on_CellingDetection_body_entered"]
 [connection signal="body_exited" from="CollisionDetection/CellingDetection" to="." method="_on_CellingDetection_body_exited"]
+[connection signal="body_entered" from="NearDetection/Top" to="." method="_on_Top_body_entered"]
+[connection signal="body_exited" from="NearDetection/Top" to="." method="_on_Top_body_exited"]
+[connection signal="body_entered" from="NearDetection/Bottom" to="." method="_on_Bottom_body_entered"]
+[connection signal="body_exited" from="NearDetection/Bottom" to="." method="_on_Bottom_body_exited"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]
+[connection signal="area_exited" from="Hitbox" to="." method="_on_Hitbox_area_exited"]

@@ -8,11 +8,12 @@ func _process(delta):
 	if hit:
 		hp -= 1
 		if hp>0:
-			$AnimationPlayer.play("Hit")
+			$EffectPlayer.play("Hit")
 			hit = false
 		elif hp <=0:
-			$AnimationPlayer.play("Death")
-
+			$EffectPlayer.play("Death")
+	else:
+		$AnimationPlayer.play("Jump")
 
 
 

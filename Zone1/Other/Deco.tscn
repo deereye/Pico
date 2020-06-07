@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Zone1/Other/Test.png" type="Texture" id=1]
+
+[node name="Deco" type="Sprite"]
+scale = Vector2( 2, 2 )
+z_index = -50
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 110, 332, 317 )
