@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Main/ScenesScripts/TileMap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Main/Player/Player.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Main/grid.png" type="Texture" id=5]
 [ext_resource path="res://Zone1/PNJ/PNJtest.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Zone1/Other/Deco.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Zone1/Monsters/PatrolEnnemy.tscn" type="PackedScene" id=8]
 
 [node name="TestWorld" type="Node2D"]
 
@@ -20,7 +21,7 @@ tile_data = PoolIntArray( -8060953, 5, 65537, -7798676, 6, 0, -7733142, 3, 0, -7
 [node name="HalfGround" parent="." instance=ExtResource( 3 )]
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 2213.54, -6298.53 )
+position = Vector2( 2014.84, -4438.01 )
 
 [node name="grid" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.490196 )
@@ -58,12 +59,16 @@ gravity_scale = 5.0
 position = Vector2( 1019.2, -947.649 )
 gravity_scale = 5.0
 
+[node name="KinematicBody2D" parent="Enemy" instance=ExtResource( 8 )]
+position = Vector2( 2468.11, -4562.8 )
+
 [node name="PNJ" type="Node2D" parent="."]
 
 [node name="PNJtest" parent="PNJ" instance=ExtResource( 6 )]
 position = Vector2( 2301.7, -5673.96 )
 
 [node name="Decorations" type="Node2D" parent="."]
+position = Vector2( 264.567, -1649.66 )
 
 [node name="Deco" parent="Decorations" instance=ExtResource( 7 )]
 position = Vector2( 3047, -5691.66 )
