@@ -60,7 +60,7 @@ position = Vector2( 1019.2, -947.649 )
 gravity_scale = 5.0
 
 [node name="KinematicBody2D" parent="Enemy" instance=ExtResource( 8 )]
-position = Vector2( 2468.11, -4562.8 )
+position = Vector2( 2532.05, -4598.46 )
 
 [node name="PNJ" type="Node2D" parent="."]
 
